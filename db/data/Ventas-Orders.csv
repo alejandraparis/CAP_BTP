@@ -1,0 +1,4 @@
+Order_UUID;Order_ID;Email;FirstName;LastName;Country_code;CreateOn;DeliveryDate;OrderStatus;ImageUrl;createdAt;createdBy;modifiedAt;modifiedBy
+A2C8724985A41FE183F18C30BBD8FEB3;20000001;juanperez@email.com;Juan;Perez;ES;2026-02-22;2026-02-27;1;http://1;;CB9980005056;;CB9980005056
+A2C8724985A41FE183F18C30BBD91EB3;20000002;anagomez@email.com;Ana;Gomez;FR;2026-02-22;2026-03-04;1;http://2;;CB9980005056;;CB9980005056
+A2C8724985A41FE183F18C30BBD93EB3;20000003;luismartinez@email.com;Luis;Martinez;VE;2026-02-22;2026-03-09;1;http://3;;CB9980005056;;CB9980005056
