@@ -1,39 +1,86 @@
 namespace Ventas;
 
 using {
+    cuid,
     managed,
-    sap.common.Countries
+    sap.common.Currencies,
+    sap.common.Countries,
+    sap.common.CodeList
 } from '@sap/cds/common';
 
-entity Orders : managed {
-    key Order_UUID   : UUID;
-        Order_ID     : String(8);
-        Email        : String(30);
-        FirstName    : String(30);
-        LastName     : String(30);
-        Country      : Association to Countries;
-        CreateOn     : Date;
-        DeliveryDate : Date;
-        OrderStatus  : Integer;
-        ImageUrl     : String;
+entity Orders : cuid, managed {   
+        ordernro     : String(8);
+        email        : String(30);
+        firstname    : String(30);
+        lastname     : String(30);
+        country      : Association to Countries;
+        createon     : Date;
+        deliverydate : Date;
+        orderstatus  : Integer;
+        imageurl     : String;
         toItems      : Composition of many Items
-                           on toItems.Order_UUID = $self;
+                           on toItems.order = $self;
 
 };
 
-entity Items : managed {
-    key Item_UUID        : UUID;
-        Order_ID         : String(8);
-        Name             : String(40);
-        Description      : String(40);
-        ReleaseDate      : Date;
-        DiscontinuedDate : Date;
-        Price            : Decimal(12, 2);
-        HEIGHT           : Decimal(13, 3);
-        WIDTH            : Decimal(13, 3);
-        DEPTH            : Decimal(13, 3);
-        QUANTITY         : Decimal(13, 3);
-        UNITOFMEASURE    : String(3);
-        Order_UUID       : Association to Orders;
+entity Items : cuid, managed {    
+        ordernro         : String(8);
+        name             : String(40);
+        description      : String(40);
+        releasedate      : Date;
+        discontinueddate : Date;
+        price            : Decimal(12, 2);
+        height           : Decimal(13, 3);
+        width            : Decimal(13, 3);
+        depth            : Decimal(13, 3);
+        quantity         : Decimal(13, 3);
+        unitofmeasure    : String(3);
+        order            : Association to Orders;//Order_id
 
+};
+
+entity Products : cuid, managed {  
+    product       : String(8);
+    productName   : String(80);
+    description   : LargeString;    
+    price         : Decimal(6, 2); 
+    currency      : Association to Currencies; //currency_code    
+    toReviews     : Composition of many Reviews
+                        on toReviews.product = $self;    
+};
+
+entity Reviews : cuid {
+    rating     : Decimal(3, 2);
+    date       : Date;
+    user       : String(20);
+    reviewText : LargeString;
+    product    : Association to Products; //product_ID
+};
+
+entity Sales : cuid, managed {  
+    ordernro      : String(8);
+    email     : String(30);
+    firstname     : String(30);
+    lastname      : String(30);   
+    country       : Association to Countries; 
+    createon      : Date; 
+    deliverydate  : Date;
+    orderstatus   : Integer;
+    imageurl      : String;   
+    toDetails     : Composition of many Details
+                        on toDetails.order = $self;    
+};
+
+entity Details : cuid {
+    name        : String(40);
+    description : String(40);    
+    releasedate : Date;
+    discontinueddate : Date;
+    price       : Decimal(12, 2);
+    height      : Decimal(13, 3);
+    width       : Decimal(13, 3);
+    depth       : Decimal(13, 3);
+    quantity    : Decimal(13, 3);
+    unitofmeasure : String(3);   
+    order    : Association to Sales; //order_ID
 };
